@@ -261,15 +261,15 @@ const searchDog = (req, res) => {
       return res.json({ error: 'No dogs found' });
     }
 
-    doc.age++;
+    const fetchedDog = doc;
 
-    const savePromise = doc.save();
+    fetchedDog.age++;
 
-    savePromise.then(() => {
-      res.json({ name: doc.name, breed: doc.breed, age: doc.age });
-    }).catch((err) => {
-      res.json({ err });
-    });
+    const savePromise = fetchedDog.save();
+
+    const responseJSON = { name: fetchedDog.name, breed: fetchedDog.breed, age: fetchedDog.age };
+
+    return savePromise.then(() => res.json(responseJSON)).catch(error => res.json({ error }));
   });
 };
 
